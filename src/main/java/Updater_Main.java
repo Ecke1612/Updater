@@ -8,6 +8,7 @@ import main.DashmirrorMain;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by Eike on 14.09.2018.
@@ -15,7 +16,7 @@ import java.util.List;
 public class Updater_Main extends Application {
 
     public static int build = 0;
-    private final int updateCircle = 5;
+    private int updateCircle = 5;
     private boolean firststart = true;
     private DashmirrorMain dmain;
     private Process process;
@@ -23,6 +24,9 @@ public class Updater_Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Update Circle eingeben (in Minuten): ");
+        updateCircle = scanner.nextInt();
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         dmain = new DashmirrorMain();
@@ -32,7 +36,7 @@ public class Updater_Main extends Application {
             process = startJar(executPath);
             firststart = false;
         }
-        KeyFrame frame = new KeyFrame(Duration.hours(updateCircle), event -> {
+        KeyFrame frame = new KeyFrame(Duration.minutes(updateCircle), event -> {
             try {
                 System.out.println("check for updates!");
                 if (check(dmain.getBuild())) {
