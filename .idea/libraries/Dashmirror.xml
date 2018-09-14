@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Dashmirror">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/bin/Dashmirror/Dashmirror.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
