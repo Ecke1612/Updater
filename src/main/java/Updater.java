@@ -68,7 +68,7 @@ public class Updater {
     private boolean checkVersion() {
         if(fileExist("ver/newbuild.txt")) {
             try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream("ver/newbuild.txt"), "UTF-8")))) {
-                //Wenn durch Windows TextoCOdierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
+                //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF)
                     reader.reset();

@@ -5,47 +5,39 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.DashmirrorMain;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by Eike on 17.06.2017.
+ * Created by Eike on 14.09.2018.
  */
 public class Updater_Main extends Application {
 
     public static int build = 0;
-    private final int updateCircle = 10;
+    private final int updateCircle = 5;
     private boolean firststart = true;
     private DashmirrorMain dmain;
     private Process process;
+    private String executPath = "bin/dashmirror/Dashmirror.jar";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         dmain = new DashmirrorMain();
-        /*if(check(dmain.getBuild())) {
-        } else {
-        }*/
         if(firststart) {
-            //Runtime rt1 = Runtime.getRuntime();
-            //Process pr2 = rt1.exec("java -jar bin/dashmirror/Dashmirror.jar");
-            System.out.println("try to start App");
-            process = startJar("bin/dashmirror/Dashmirror.jar");
-
+            System.out.println("starting " + dmain.getAppName());
+            check(dmain.getBuild());
+            process = startJar(executPath);
             firststart = false;
         }
-        KeyFrame frame = new KeyFrame(Duration.seconds(updateCircle), event -> {
+        KeyFrame frame = new KeyFrame(Duration.hours(updateCircle), event -> {
             try {
                 System.out.println("check for updates!");
                 if (check(dmain.getBuild())) {
                     process.destroy();
-                    //Runtime rt2 = Runtime.getRuntime();
-                    //Process pr2 = rt2.exec("java -jar bin/dashmirror/Dashmirror.jar");
-                    process = startJar("bin/dashmirror/Dashmirror.jar");
+                    process = startJar(executPath);
                 } else {
                     System.out.println("no Updates were found, keep going");
                 }
