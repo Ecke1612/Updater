@@ -50,8 +50,9 @@ public class Updater {
     private void loadConfig() {
         JSONParser parser = new JSONParser();
         try {
-
-            Object obj = parser.parse(new FileReader("C:/Users/Eike/IdeaProjects/Updater/src/main/res/config/serverconfig.json"));
+            String filePath = new File("").getAbsolutePath();
+            System.out.println(filePath);
+            Object obj = parser.parse(new InputStreamReader(getClass().getResourceAsStream( "config/serverconfig.json")));
             JSONObject jsonObject = (JSONObject) obj;
             server = (String) jsonObject.get("server");
             user = (String) jsonObject.get("user");
