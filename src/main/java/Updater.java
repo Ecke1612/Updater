@@ -2,6 +2,7 @@
 import javafx.scene.control.Alert;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -101,9 +102,42 @@ public class Updater {
         return false;
     }
 
-    private void update() throws IOException {
-        System.out.println("newbuild: " + newBuild);
+    public int getVersion() {
+        if(fileExist("ver/newbuild.txt")) {
+            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream("ver/newbuild.txt"), "UTF-8")))) {
+                //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
+                reader.mark(1);
+                if (reader.read() != 0xFEFF) reader.reset();
+
+                int newBuild = Integer.parseInt(reader.readLine());
+                System.out.println("old build: " + Updater_Main.build);
+                System.out.println("new build: " + newBuild);
+                return newBuild;
+            } catch (IOException e) {
+                //e.printStackTrace();
+                System.out.println("Update konnte nicht ausgeführt werden, Server nicht erreichbar");
+            }
+        }
+        System.out.println("build Datei nicht vorhanden");
+        return 0;
+    }
+
+    private void update() throws IOException, ParseException {
         ftp_handler.downloadFile(initialPath + "/" + appName + "_" + newBuild + ".jar", localPath + appName + ".jar");
+        ftp_handler.downloadFile(initialPath + "/alist.json", "ver/alist");
+
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(new FileReader("ver/aList"));
+        JSONObject jsonObj = (JSONObject) obj;
+        for (Object key : jsonObj.keySet()) {
+            //based on you key types
+            String keyStr = (String)key;
+            Object keyvalue = jsonObj.get(keyStr);
+
+            //Print key and value
+            System.out.println("key: "+ keyStr + " value: " + keyvalue);
+            ftp_handler.downloadFile(keyStr, keyvalue.toString());
+        }
         System.out.println("heruntergeladen");
     }
 

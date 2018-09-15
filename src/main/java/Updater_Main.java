@@ -21,14 +21,17 @@ public class Updater_Main extends Application {
     private DashmirrorMain dmain;
     private Process process;
     private String executPath = "bin/dashmirror/Dashmirror.jar";
+    Updater updater = new Updater();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Update Circle eingeben (in Minuten): ");
         updateCircle = scanner.nextInt();
+
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
+
         dmain = new DashmirrorMain();
         if(firststart) {
             System.out.println("starting " + dmain.getAppName());
@@ -39,7 +42,7 @@ public class Updater_Main extends Application {
         KeyFrame frame = new KeyFrame(Duration.minutes(updateCircle), event -> {
             try {
                 System.out.println("check for updates!");
-                if (check(dmain.getBuild())) {
+                if (check(updater.getVersion())) {
                     process.destroy();
                     process = startJar(executPath);
                 } else {
@@ -59,7 +62,6 @@ public class Updater_Main extends Application {
 
         System.out.println("old build main: " + build);
 
-            Updater updater = new Updater();
             boolean update = updater.checkForUpdate();
             if (update) {
                 updater.showChangeLog();
