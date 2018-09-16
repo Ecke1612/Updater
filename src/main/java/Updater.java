@@ -51,8 +51,6 @@ public class Updater {
     private void loadConfig() {
         JSONParser parser = new JSONParser();
         try {
-            String filePath = new File("").getAbsolutePath();
-            System.out.println(filePath);
             Object obj = parser.parse(new InputStreamReader(getClass().getResourceAsStream( "config/serverconfig.json")));
             JSONObject jsonObject = (JSONObject) obj;
             server = (String) jsonObject.get("server");
@@ -110,7 +108,6 @@ public class Updater {
                 if (reader.read() != 0xFEFF) reader.reset();
 
                 int newBuild = Integer.parseInt(reader.readLine());
-                System.out.println("old build: " + Updater_Main.build);
                 System.out.println("new build: " + newBuild);
                 return newBuild;
             } catch (IOException e) {
