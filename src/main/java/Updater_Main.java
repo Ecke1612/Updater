@@ -3,15 +3,10 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.DashmirrorMain;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by Eike on 14.09.2018.
@@ -21,21 +16,16 @@ public class Updater_Main extends Application {
     private final String version = "0.13";
 
     public static int build = 0;
-    private int updateCircle = 5;
+    private int updateCircle = 1000;
     private boolean firststart = true;
-    //private Process process;
     private String executPath = "bin/dashmirror/Dashmirror.jar";
     private String os = "windows";
     private Updater updater = new Updater();
     private Processer processer = new Processer();
-    //private DashmirrorMain dMain;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("Version: " + version);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Update Circle eingeben (in Minuten): ");
-        updateCircle = scanner.nextInt();
 
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -45,6 +35,7 @@ public class Updater_Main extends Application {
         JSONObject jsonObject = (JSONObject) obj;
         os = jsonObject.get("os").toString();
         executPath = jsonObject.get("path").toString();
+        updateCircle = Integer.parseInt(jsonObject.get("updateCircle").toString());
         String appname = jsonObject.get("appname").toString();
 
         if (firststart) {
