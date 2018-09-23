@@ -19,7 +19,7 @@ public class Processer {
         // add the list of commands to the list
         if (os.equals("linux")) alist.add("sudo");
         alist.add("java");
-        if (os.equals("linux")) alist.add("-Djavafx.platform=gtk2");
+        //if (os.equals("linux")) alist.add("-Djavafx.platform=gtk2");
         alist.add("-jar");
         alist.add(jarFile);
 

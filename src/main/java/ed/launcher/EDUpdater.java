@@ -1,21 +1,18 @@
 package ed.launcher;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Eike on 14.09.2018.
  */
-public class EDUpdater extends Application {
+public class EDUpdater {
 
-    private final String version = "0.13";
+    private final String version = "0.15";
 
     public static int build = 0;
     private int updateCircle = 1000;
@@ -24,13 +21,13 @@ public class EDUpdater extends Application {
     private String os = "windows";
     private Updater updater = new Updater();
     private Processer processer = new Processer();
+    private Timer timer;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+
+    public void start() throws Exception {
         System.out.println("Version: " + version);
+        timer = new Timer("updateTimer");
 
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
 
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(new FileReader("bin/exec.json"));
@@ -48,22 +45,26 @@ public class EDUpdater extends Application {
 
             firststart = false;
         }
-        KeyFrame frame = new KeyFrame(Duration.minutes(updateCircle), event -> {
-            try {
-                System.out.println("check for updates!");
-                if (check(updater.getVersion())) {
-                    processer.destroyProcess();
-                    processer.startJar(executPath, os);
-                } else {
-                    System.out.println("no Updates were found, keep going");
-                }
+        long loop = 1000 * 60 * updateCircle;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("check for updates!");
+                    if (check(updater.getVersion())) {
+                        processer.destroyProcess();
+                        processer.startJar(executPath, os);
+                    } else {
+                        System.out.println("no Updates were found, keep going");
+                    }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        });
-        timeline.getKeyFrames().add(frame);
-        timeline.play();
+        }, loop, loop);
+
+
     }
 
     public boolean check(int version) throws Exception {
@@ -81,7 +82,5 @@ public class EDUpdater extends Application {
         }
     }
 
-    public static void main(String args[]) {
-        launch();
-    }
+
 }
