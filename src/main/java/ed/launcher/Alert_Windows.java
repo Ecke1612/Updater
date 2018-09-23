@@ -1,10 +1,6 @@
 package ed.launcher;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-
 import javax.swing.*;
-import java.util.Optional;
 
 /**
  * Created by Eike on 20.05.2017.
@@ -37,8 +33,9 @@ public class Alert_Windows {
         }
         return false;
     }
-
+/*
     public boolean confirmDialogFX(String title, String header, String text) {
+
         System.out.println("alertTest1");
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -53,6 +50,6 @@ public class Alert_Windows {
         } else {
             return false;
         }
-    }
+    }*/
 
 }

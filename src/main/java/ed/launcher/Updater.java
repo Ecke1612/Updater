@@ -1,6 +1,5 @@
 package ed.launcher;
 
-import javafx.scene.control.Alert;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -80,13 +79,13 @@ public class Updater {
                 System.out.println("direkt vor flaoting");
                 if(Integer.parseInt(newBuild) > EDUpdater.build) {
                     if(enableAlerts) {
-                        if (alerts.confirmDialogFX("Update", "Es ist ein Update verfügbar", "Möchtest du " + appName + " aktualisieren?")) {
+                        /*if (alerts.confirmDialogFX("Update", "Es ist ein Update verfügbar", "Möchtest du " + appName + " aktualisieren?")) {
                             System.out.println("True");
                             return true;
                         } else {
                             System.out.println("False");
                             return false;
-                        }
+                        }*/
                     } else {
                         return true;
                     }
@@ -148,13 +147,13 @@ public class Updater {
             for (String entry : log) {
                 content = content + entry + "\n";
             }
-
+/*
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Changelog");
             alert.setHeaderText(null);
             alert.setContentText(content);
 
-            alert.showAndWait();
+            alert.showAndWait();*/
         }
         renameBuildFile();
     }
