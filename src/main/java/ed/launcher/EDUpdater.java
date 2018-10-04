@@ -12,7 +12,7 @@ import java.util.TimerTask;
  */
 public class EDUpdater {
 
-    private final String version = "0.15";
+    private final String version = "0.17";
 
     public static int build = 0;
     private int updateCircle = 1000;

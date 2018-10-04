@@ -1,5 +1,6 @@
 package ed.launcher;
 
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -124,16 +125,22 @@ public class Updater {
         ftp_handler.downloadFile(initialPath + "/alist.json", "ver/alist");
 
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader("ver/aList"));
+        Object obj = parser.parse(new FileReader("ver/alist"));
         JSONObject jsonObj = (JSONObject) obj;
         for (Object key : jsonObj.keySet()) {
             //based on you key types
             String keyStr = (String)key;
             Object keyvalue = jsonObj.get(keyStr);
-
             //Print key and value
             System.out.println("key: "+ keyStr + " value: " + keyvalue);
-            ftp_handler.downloadFile(keyStr, keyvalue.toString());
+            if(keyStr.equals("000delete")) {
+                if(keyvalue.equals("yes")) {
+                    System.out.println("saves erased!");
+                    FileUtils.cleanDirectory(new File("data/store/"));
+                }
+            } else {
+                ftp_handler.downloadFile(keyStr, keyvalue.toString());
+            }
         }
         System.out.println("heruntergeladen");
     }
