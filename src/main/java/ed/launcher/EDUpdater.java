@@ -1,59 +1,95 @@
 package ed.launcher;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import java.io.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import javafx.concurrent.Task;
+import org.json.simple.parser.ParseException;
+import java.io.IOException;
 
 /**
  * Created by Eike on 14.09.2018.
  */
-public class EDUpdater {
 
-    private final String version = "0.17";
+public class EDUpdater extends Task<Long> {
 
     public static int build = 0;
-    private int updateCircle = 1000;
-    private boolean firststart = true;
-    private String executPath = "bin/dashmirror/Dashmirror.jar";
-    private String os = "windows";
     private Updater updater = new Updater();
     private Processer processer = new Processer();
-    private Timer timer;
+    //private Timer timer;
+    private String executPath;
 
 
-    public void start() throws Exception {
-        System.out.println("Version: " + version);
-        timer = new Timer("updateTimer");
+    public EDUpdater() {
+        System.out.println("Version: " + Launcher.version);
+        //timer = new Timer("updateTimer");
 
+    }
 
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader("bin/exec.json"));
-        JSONObject jsonObject = (JSONObject) obj;
-        os = jsonObject.get("os").toString();
-        executPath = jsonObject.get("path").toString();
-        updateCircle = Integer.parseInt(jsonObject.get("updateCircle").toString());
-        String appname = jsonObject.get("appname").toString();
+    @Override
+    protected Long call() throws Exception {
+        return null;
+    }
 
-        if (firststart) {
-            System.out.println("starting " + appname);
-            check(updater.getVersion());
-
-            processer.startJar(executPath, os);
-
-            firststart = false;
+    public void startApp(AppObject appObject) {
+        executPath = "bin/apps/" + appObject.getName() + "/" + appObject.getExec();
+        System.out.println("starting " + appObject.getName());
+        String[] formatArray = appObject.getExec().split("\\.");
+        String format = formatArray[1];
+        try {
+            if(format.equals("jar")) {
+                processer.startJar(executPath, Launcher.configObject.getOs());
+            }
+            else if(format.equals("bat")) {
+                processer.startBat(executPath);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        long loop = 1000 * 60 * updateCircle;
+    }
+
+    public boolean checkForUpdates(AppObject appObject) {
+        boolean isNewVersion = false;
+        try {
+            int installedVersion = updater.getInstalledVersion(appObject);
+            System.out.println("installed Version: " + installedVersion);
+            isNewVersion = updater.checkForUpdate(appObject, installedVersion);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isNewVersion;
+    }
+
+    public void executeUpdate(AppObject appObject) {
+        try {
+            processer.destroyProcess();
+            updater.update(appObject);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showChangeLog(AppObject appObject) {
+        updater.showChangeLog(appObject);
+    }
+
+    public Updater getUpdater() {
+        return updater;
+    }
+
+    /*  public void startScheduler() {
+        long loop = 1000 * 60 * Launcher.configObject.getUpdateCircle();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
                     System.out.println("check for updates!");
-                    if (check(updater.getVersion())) {
+                    if (check(updater.getInstalledVersion())) {
                         processer.destroyProcess();
-                        processer.startJar(executPath, os);
+                        processer.startJar(executPath, Launcher.configObject.getOs());
                     } else {
                         System.out.println("no Updates were found, keep going");
                     }
@@ -63,24 +99,7 @@ public class EDUpdater {
                 }
             }
         }, loop, loop);
-
-
-    }
-
-    public boolean check(int version) throws Exception {
-        EDUpdater.build = version;
-
-        System.out.println("old build main: " + build);
-
-        boolean update = updater.checkForUpdate();
-        if (update) {
-            updater.showChangeLog();
-            return true;
-        } else {
-            System.out.println("altes Programm gestartet");
-            return false;
-        }
-    }
+    }*/
 
 
 }

@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="ED_FX_Launcher">
+    <output-path>$PROJECT_DIR$/out/artifacts/ED_FX_Launcher</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="ed.launcher.Launcher" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="ED Launcher" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+        <option name="width" value="250" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="ED_FX_Launcher.jar">
+        <element id="module-output" name="Updater" />
+        <element id="library" level="project" name="Maven: commons-net:commons-net:2.2" />
+        <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+        <element id="library" level="project" name="Maven: junit:junit:4.10" />
+        <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
+        <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,6 +1,8 @@
 package ed.launcher;
 
+import javafx.scene.control.Alert;
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,30 +20,24 @@ public class Updater {
     private boolean enableAlerts = false;
 
     private String newBuild = null;
-    private String appName = "";
-    private String server = "";
-    private String user = "";
-    private String pw = "";
-    private String remoteTxtPath = "";
-    private String initialPath = "";
-    private String localPath = "";
+    private final String server = "ecke1612.bplaced.net";
+    private final String user = "ecke1612_interval";
+    private final String pw = "Interval#18";
+    //private AppObject appObject;
 
 
-    public boolean checkForUpdate() throws Exception {
-        loadConfig();
+    public boolean checkForUpdate(AppObject appObject, int installedVersion) throws Exception {
+        //this.appObject = appObject;
         try {
             ftp_handler = new FTP_Handler(server, user, pw);
-            ftp_handler.downloadFile(remoteTxtPath, "ver/newbuild.txt");
+            if(!fileExist(appObject.getLocalPath() + "ver")) {
+                createDir(appObject.getLocalPath() + "ver");
+            }
+            ftp_handler.downloadFile(appObject.getRemoteTextPath(), appObject.getLocalPath() + "ver/newbuild.txt");
             System.out.println("build erfolgreich heruntergeladen");
-            boolean doUpdate = checkVersion();
-            if(doUpdate) {
-                update();
-                ftp_handler.disconnect();
-                return true;
-            }
-            else {
-                return false;
-            }
+            boolean newVersionAvailable = compareLocalAndRemoteVersion(appObject, installedVersion);
+            System.out.println("new Version found: " + newVersionAvailable);
+            return newVersionAvailable;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Fehler beim updaten");
@@ -49,44 +45,26 @@ public class Updater {
         }
     }
 
-    private void loadConfig() {
-        JSONParser parser = new JSONParser();
-        try {
-            Object obj = parser.parse(new FileReader( "bin/serverconfig.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            server = (String) jsonObject.get("server");
-            user = (String) jsonObject.get("user");
-            pw = (String) jsonObject.get("pw");
-            remoteTxtPath = (String) jsonObject.get("remoteTxtPath");
-            appName = (String) jsonObject.get("appName");
-            initialPath = (String) jsonObject.get("initalPath");
-            localPath = (String) jsonObject.get("localPath");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean checkVersion() {
-        if(fileExist("ver/newbuild.txt")) {
-            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream("ver/newbuild.txt"), "UTF-8")))) {
+    private boolean compareLocalAndRemoteVersion(AppObject appObject, int installedVersion) {
+        if(fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
+            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "/ver/newbuild.txt"), "UTF-8")))) {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF)
                     reader.reset();
                 newBuild = reader.readLine();
-                System.out.println("old build: " + EDUpdater.build);
+                System.out.println("new build new: " + newBuild);
                 //float newBuildFloat = Float.parseFloat(newBuild);
-                //if(!newBuild.equals(null) && !newBuild.equals(ed.launcher.EDUpdater.build)) {
-                System.out.println("direkt vor flaoting");
-                if(Integer.parseInt(newBuild) > EDUpdater.build) {
+                //if(!newBuild.equals(null) && !newBuild.equals(ed.Launcher.EDUpdater.build)) {
+                if(Integer.parseInt(newBuild) > installedVersion) {
                     if(enableAlerts) {
-                        /*if (alerts.confirmDialogFX("Update", "Es ist ein Update verfügbar", "Möchtest du " + appName + " aktualisieren?")) {
+                        if (alerts.confirmDialogFX("Update", "Es ist ein Update verfügbar", "Möchtest du " + appObject.getName() + " aktualisieren?")) {
                             System.out.println("True");
                             return true;
                         } else {
                             System.out.println("False");
                             return false;
-                        }*/
+                        }
                     } else {
                         return true;
                     }
@@ -101,15 +79,15 @@ public class Updater {
         return false;
     }
 
-    public int getVersion() {
-        if(fileExist("ver/newbuild.txt")) {
-            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream("ver/newbuild.txt"), "UTF-8")))) {
+    public int getInstalledVersion(AppObject appObject) {
+        if(fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
+            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "/ver/newbuild.txt"), "UTF-8")))) {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF) reader.reset();
 
                 int newBuild = Integer.parseInt(reader.readLine());
-                System.out.println("new build: " + newBuild);
+                System.out.println("installed build: " + newBuild);
                 return newBuild;
             } catch (IOException e) {
                 //e.printStackTrace();
@@ -120,59 +98,72 @@ public class Updater {
         return 0;
     }
 
-    private void update() throws IOException, ParseException {
-        ftp_handler.downloadFile(initialPath + "/" + appName + "_" + newBuild + ".jar", localPath + appName + ".jar");
-        ftp_handler.downloadFile(initialPath + "/alist.json", "ver/alist");
+    public void update(AppObject appObject) throws IOException, ParseException {
+        if(!fileExist(appObject.getLocalPath() + "ver")) createDir(appObject.getLocalPath() + "ver");
+        ftp_handler.downloadFile(appObject.getInitialPath() + "/" + appObject.getName() + "_" + newBuild + ".jar", appObject.getLocalPath() +  appObject.getName() + ".jar");
+        ftp_handler.downloadFile(appObject.getInitialPath() + "/alist.json", appObject.getLocalPath() + "ver/alist");
 
         JSONParser parser = new JSONParser();
-        Object obj = parser.parse(new FileReader("ver/alist"));
+        Object obj = parser.parse(new FileReader(appObject.getLocalPath() + "ver/alist"));
         JSONObject jsonObj = (JSONObject) obj;
-        for (Object key : jsonObj.keySet()) {
-            //based on you key types
-            String keyStr = (String)key;
-            Object keyvalue = jsonObj.get(keyStr);
-            //Print key and value
-            System.out.println("key: "+ keyStr + " value: " + keyvalue);
-            if(keyStr.equals("000delete")) {
-                if(keyvalue.equals("yes")) {
-                    System.out.println("saves erased!");
-                    FileUtils.cleanDirectory(new File("data/store/"));
-                }
-            } else {
-                ftp_handler.downloadFile(keyStr, keyvalue.toString());
+
+        JSONArray deleteArray = (JSONArray) jsonObj.get("delete");
+        for(int i = 0; i < deleteArray.size(); i++) {
+            String path = deleteArray.get(i).toString();
+            File file = new File( appObject.getLocalPath() + path);
+            file.delete();
+            System.out.println("deleted: " + appObject.getLocalPath() + path);
+        }
+
+        JSONArray addArray = (JSONArray) jsonObj.get("add");
+        for(int x = 0; x < addArray.size(); x++) {
+            JSONObject addObject = (JSONObject) addArray.get(x);
+            for (Object key : addObject.keySet()) {
+                String keyStr = (String) key;
+                Object keyvalue = addObject.get(keyStr);
+                System.out.println("key: "+ keyStr + " value: " + keyvalue);
+                ftp_handler.downloadFile(appObject.getInitialPath() + "/" + keyStr, appObject.getLocalPath() + keyvalue.toString());
             }
         }
         System.out.println("heruntergeladen");
+        ftp_handler.disconnect();
     }
 
-    public void showChangeLog() throws IOException {
-        if(enableAlerts) {
-            ArrayList<String> log = fileLoader("ver/newbuild.txt");
+    public void showChangeLog(AppObject appObject) {
+        //if(enableAlerts) {
+        ArrayList<String> log = null;
+        try {
+            log = fileLoader(appObject.getLocalPath() + "ver/newbuild.txt");
+
             System.out.println("Changelog");
 
             String content = "";
             for (String entry : log) {
                 content = content + entry + "\n";
             }
-/*
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            alerts.confirmDialogFX("Changelog", "Hinweise zur aktuellen Version", content);
+            /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Changelog");
             alert.setHeaderText(null);
-            alert.setContentText(content);
+            alert.setContentText(content);*/
 
-            alert.showAndWait();*/
+            //alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        renameBuildFile();
+        //}
+        //renameBuildFile();
     }
 
-    public void renameBuildFile() throws IOException {
-        if(fileExist("ver/newbuild.txt")) {
+    public void renameBuildFile(AppObject appObject) throws IOException {
+        if(fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
 //            File_Handler.deleteFile("ver/newbuild.txt");
             System.out.println("build.txt gelöscht");
         }
     }
 
-    private boolean fileExist(String path) {
+    public static boolean fileExist(String path) {
         File file = new File(path);
         if(file.exists()) {
             return true;
@@ -197,6 +188,11 @@ public class Updater {
             e.printStackTrace();
         }
         return data;
+    }
+
+    public static void createDir(String name) {
+        File dir = new File(name);
+        dir.mkdir();
     }
 
 }

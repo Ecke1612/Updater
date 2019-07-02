@@ -11,6 +11,7 @@ public class Processer {
     private Thread threadErr;
 
     public void startJar(String jarFile, String os) throws InterruptedException, IOException {
+        System.out.println("run jar");
         if (os.equals("windows")) System.out.println("start on Windows");
         else if (os.equals("linux")) System.out.println("start on Linux");
 
@@ -35,10 +36,38 @@ public class Processer {
         }
     }
 
+    public void startBat(String batFile) throws InterruptedException, IOException {
+        List alist = new ArrayList<>();
+
+        //String[] command = {"cmd.exe", "/C", "Start", "bin\\app\\ExHelper\\ExHelper.bat"};
+        alist.add("cmd.exe");
+        alist.add("/C");
+        //if (os.equals("linux")) alist.add("-Djavafx.platform=gtk2");
+        alist.add("Start");
+        alist.add(batFile);
+
+        // initialize the processbuilder
+        ProcessBuilder builder = new ProcessBuilder();
+        builder.command(alist);
+        try {
+            // start the process
+            //process = Runtime.getRuntime().exec(command);
+            process = builder.start();
+            consume();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void destroyProcess() throws InterruptedException {
-        process.destroy();
-        threadOut.join();
-        threadErr.join();
+
+        if(process != null) {
+            if(process.isAlive()) {
+                process.destroy();
+                threadOut.join();
+                threadErr.join();
+            }
+        }
     }
 
     public void consume() {
@@ -90,4 +119,7 @@ public class Processer {
         }
     }
 
+    public Process getProcess() {
+        return process;
+    }
 }

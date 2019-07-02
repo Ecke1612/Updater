@@ -1,0 +1,14 @@
+
+.choice-box {
+    -fx-background-color: red;
+    -fx-pref-width: 15;
+}
+.choice-box > .label {
+    visibility: hidden;
+}
+
+.btn_start {
+    -fx-background-color: rgb(255,250,254);
+    -fx-font-size: 16;
+    -fx-border-radius: 6;
+}

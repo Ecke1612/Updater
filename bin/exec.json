@@ -1,6 +1,27 @@
 {
-"os": "windows",
-"path": "bin/dashmirror/Dashmirror.jar",
-"appname": "Dashmirror",
-"updateCircle": "120"
+  "os": "windows",
+  "updateCircle": "120",
+  "apps":[
+    {
+      "name": "Interval",
+      "exec": "Interval.jar",
+      "remoteTxtPath": "/interval/build.txt",
+      "initalPath": "/interval",
+      "localPath": "bin/apps/Interval/"
+    },
+    {
+      "name": "Dashmirror",
+      "exec": "Dashmirror.jar",
+      "remoteTxtPath": "/dashmirror/build.txt",
+      "initalPath": "/dashmirror",
+      "localPath": "bin/apps/Dashmirror/"
+    },
+    {
+      "name": "ExHelper",
+      "exec": "ExHelper.bat",
+      "remoteTxtPath": "/exhelper/build.txt",
+      "initalPath": "/exhelper",
+      "localPath": "bin/apps/ExHelper/"
+    }
+  ]
 }

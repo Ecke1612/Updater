@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: ed.launcher.Main
+Main-Class: ed.launcher.Launcher
 
