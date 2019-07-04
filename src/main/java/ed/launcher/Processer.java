@@ -2,6 +2,7 @@ package ed.launcher;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Processer {
@@ -39,16 +40,17 @@ public class Processer {
     public void startBat(String batFile) throws InterruptedException, IOException {
         List alist = new ArrayList<>();
 
-        //String[] command = {"cmd.exe", "/C", "Start", "bin\\app\\ExHelper\\ExHelper.bat"};
+        String[] command = {"cmd.exe", "/C", "Start", "bin\\apps\\ExHelper\\ExHelper.bat"};
         alist.add("cmd.exe");
         alist.add("/C");
         //if (os.equals("linux")) alist.add("-Djavafx.platform=gtk2");
-        alist.add("Start");
+        alist.add("start");
         alist.add(batFile);
+        System.out.println("alist" + Arrays.toString(alist.toArray()));
 
         // initialize the processbuilder
         ProcessBuilder builder = new ProcessBuilder();
-        builder.command(alist);
+        builder.command(command);
         try {
             // start the process
             //process = Runtime.getRuntime().exec(command);

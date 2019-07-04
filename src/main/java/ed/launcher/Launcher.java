@@ -16,7 +16,7 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    public static final String version = "0.22";
+    public static final String version = "0.230";
     public static ConfigObject configObject;
 
     @Override
@@ -49,7 +49,7 @@ public class Launcher extends Application {
         if(!Updater.fileExist("ver")) Updater.createDir("ver");
         if(!Updater.fileExist("bin")) createAppFolders();
 
-        AppObject appObject = new AppObject(0, "ED_Launcher", "ED_Launcher.jar", "/ed_launcher/build.txt",
+        AppObject appObject = new AppObject(0, "ED_FX_Launcher", "ED_FX_Launcher.jar", "/ed_launcher/build.txt",
                 "/ed_launcher", "");
         EDUpdater edUpdater = new EDUpdater();
         if(edUpdater.checkForUpdates(appObject))

@@ -10,18 +10,18 @@
       "localPath": "bin/apps/Interval/"
     },
     {
-      "name": "Dashmirror",
-      "exec": "Dashmirror.jar",
-      "remoteTxtPath": "/dashmirror/build.txt",
-      "initalPath": "/dashmirror",
-      "localPath": "bin/apps/Dashmirror/"
-    },
-    {
       "name": "ExHelper",
       "exec": "ExHelper.bat",
       "remoteTxtPath": "/exhelper/build.txt",
       "initalPath": "/exhelper",
       "localPath": "bin/apps/ExHelper/"
+    },
+	{
+      "name": "Dashmirror",
+      "exec": "Dashmirror.jar",
+      "remoteTxtPath": "/dashmirror/build.txt",
+      "initalPath": "/dashmirror",
+      "localPath": "bin/apps/Dashmirror/"
     }
   ]
 }

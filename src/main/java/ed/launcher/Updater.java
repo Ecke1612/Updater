@@ -47,7 +47,7 @@ public class Updater {
 
     private boolean compareLocalAndRemoteVersion(AppObject appObject, int installedVersion) {
         if(fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
-            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "/ver/newbuild.txt"), "UTF-8")))) {
+            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "ver/newbuild.txt"), "UTF-8")))) {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF)
@@ -81,7 +81,7 @@ public class Updater {
 
     public int getInstalledVersion(AppObject appObject) {
         if(fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
-            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "/ver/newbuild.txt"), "UTF-8")))) {
+            try (BufferedReader reader = new BufferedReader((new InputStreamReader( new FileInputStream(appObject.getLocalPath() + "ver/newbuild.txt"), "UTF-8")))) {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF) reader.reset();

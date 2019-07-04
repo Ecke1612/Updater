@@ -51,7 +51,6 @@ public class EDUpdater extends Task<Long> {
         boolean isNewVersion = false;
         try {
             int installedVersion = updater.getInstalledVersion(appObject);
-            System.out.println("installed Version: " + installedVersion);
             isNewVersion = updater.checkForUpdate(appObject, installedVersion);
         } catch (Exception e) {
             e.printStackTrace();
