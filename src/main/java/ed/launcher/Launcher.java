@@ -16,7 +16,7 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    public static final String version = "0.230";
+    public static final String version = "0.232";
     public static ConfigObject configObject;
 
     @Override

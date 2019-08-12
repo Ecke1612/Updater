@@ -2,6 +2,13 @@
   "os": "windows",
   "updateCircle": "120",
   "apps":[
+      {
+      "name": "ImageSorter",
+      "exec": "ImageSorter.jar",
+      "remoteTxtPath": "/imagesorter/build.txt",
+      "initalPath": "/imagesorter",
+      "localPath": "bin/apps/ImageSorter/"
+    },
     {
       "name": "Interval",
       "exec": "Interval.jar",

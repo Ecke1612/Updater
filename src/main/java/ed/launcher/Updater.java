@@ -22,7 +22,7 @@ public class Updater {
     private String newBuild = null;
     private final String server = "ecke1612.bplaced.net";
     private final String user = "ecke1612_interval";
-    private final String pw = "Interval#18";
+    private final String pw = "8h6AszzvM9SjzEhB";
     //private AppObject appObject;
 
 

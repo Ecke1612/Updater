@@ -8,7 +8,7 @@ import java.io.IOException;
  * Created by Eike on 14.09.2018.
  */
 
-public class EDUpdater extends Task<Long> {
+public class EDUpdater {
 
     public static int build = 0;
     private Updater updater = new Updater();
@@ -21,11 +21,6 @@ public class EDUpdater extends Task<Long> {
         System.out.println("Version: " + Launcher.version);
         //timer = new Timer("updateTimer");
 
-    }
-
-    @Override
-    protected Long call() throws Exception {
-        return null;
     }
 
     public void startApp(AppObject appObject) {

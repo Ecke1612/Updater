@@ -8,6 +8,7 @@ public class AppObject {
     private String remoteTextPath;
     private String initialPath;
     private String localPath;
+    private boolean updateAvailable = false;
 
     public AppObject(int index, String name, String exec, String remoteTextPath, String initialPath, String localPath) {
         this.index = index;
@@ -40,5 +41,13 @@ public class AppObject {
 
     public String getExec() {
         return exec;
+    }
+
+    public boolean isUpdateAvailable() {
+        return updateAvailable;
+    }
+
+    public void setUpdateAvailable(boolean updateAvailable) {
+        this.updateAvailable = updateAvailable;
     }
 }

@@ -37,7 +37,7 @@ public class MainWindow_Controller {
     private Stage primaryStage;
     private ArrayList<AppObject> appObjects;
     //private EDUpdater edUpdater = new EDUpdater();
-    private boolean updateAvailable = false;
+    //private boolean updateAvailable = false;
     private boolean appStart = true;
     private int threadCounter = 0;
 
@@ -117,8 +117,8 @@ public class MainWindow_Controller {
 
 
         if(appStart && installed) {
-            updateAvailable =  edUpdater.checkForUpdates(appObject);
-            if(updateAvailable) {
+            appObject.setUpdateAvailable(edUpdater.checkForUpdates(appObject));
+            if(appObject.isUpdateAvailable()) {
                 btn_update.setText("\uE118");
                 labelOut.setText("Update verfügbar");
             } else {
@@ -157,16 +157,15 @@ public class MainWindow_Controller {
         btn_update.setPadding(new Insets(1));
 
         btn_update.setOnAction(event -> {
-            if(!updateAvailable) {
-                updateAvailable = edUpdater.checkForUpdates(appObject);
-                if(updateAvailable) {
+            if(!appObject.isUpdateAvailable()) {
+                appObject.setUpdateAvailable(edUpdater.checkForUpdates(appObject));
+                if(appObject.isUpdateAvailable()) {
                     btn_update.setText("\uE118");
                     labelOut.setText("Update verfügbar");
                 } else {
                     labelOut.setText("Sie sind auf dem neusten Stand");
                 }
             } else {
-
                 try {
                     UpdaterTask task = new UpdaterTask(edUpdater, appObject);
 
@@ -181,7 +180,7 @@ public class MainWindow_Controller {
                         labelOut.setText("Update erfolgreich ausgefüht");
                         btn_start.setDisable(false);
                         btn_update.setDisable(false);
-                        updateAvailable = false;
+                        appObject.setUpdateAvailable(false);
                     });
 
                     ExecutorService executorService = Executors.newFixedThreadPool(1);
