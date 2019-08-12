@@ -91,7 +91,7 @@ public class Updater {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF) reader.reset();
-
+                System.out.println("line: " + reader.readLine());
                 int newBuild = Integer.parseInt(reader.readLine());
                 System.out.println("installed build: " + newBuild);
                 return newBuild;
@@ -152,7 +152,7 @@ public class Updater {
 
             FXMLLoader fxmlLoader = null;
             fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/changelog.fxml"));
-            ChangeLogController changeLogController = new ChangeLogController(content);
+            ChangeLogController changeLogController = new ChangeLogController(content, logstage);
             fxmlLoader.setController(changeLogController);
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
