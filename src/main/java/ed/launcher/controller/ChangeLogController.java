@@ -18,6 +18,7 @@ public class ChangeLogController {
     }
 
     public void initialize() {
+        Text text = new Text(logText);
         textFlow.getChildren().add(new Text(logText));
     }
 

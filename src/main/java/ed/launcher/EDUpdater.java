@@ -18,7 +18,7 @@ public class EDUpdater {
 
 
     public EDUpdater() {
-        System.out.println("Version: " + Launcher.version);
+        System.out.println("Launcher Version: " + Launcher.version);
         //timer = new Timer("updateTimer");
 
     }
@@ -58,10 +58,6 @@ public class EDUpdater {
             processer.destroyProcess();
             updater.update(appObject);
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

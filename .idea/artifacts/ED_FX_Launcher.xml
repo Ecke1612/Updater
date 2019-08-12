@@ -13,7 +13,7 @@
         </option>
         <option name="nativeBundle" value="all" />
         <option name="title" value="ED Launcher" />
-        <option name="vendor" value="Eike Dreyer" />
+        <option name="vendor" value="" />
         <option name="version" value="" />
         <option name="width" value="250" />
       </options>
@@ -24,8 +24,8 @@
         <element id="library" level="project" name="Maven: commons-net:commons-net:2.2" />
         <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
         <element id="library" level="project" name="Maven: junit:junit:4.10" />
-        <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
         <element id="library" level="project" name="Maven: commons-io:commons-io:2.6" />
+        <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
       </element>
     </root>
   </artifact>

@@ -1,0 +1,13 @@
+232
+Bugfixes:
+  - ein Fehler, weshalb initale Updates nicht installiert werden konnten, ist nun behoben
+
+230
+
+Verbesserungen:
+  - Multithreading eingeführt, wodurch paralleles updaten und installieren der Apps ermöglich werden.
+
+222
+
+Bugfixes:
+  - .bat File Executer
