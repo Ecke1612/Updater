@@ -1,6 +1,14 @@
 package ed.launcher;
 
+import ed.launcher.controller.ChangeLogController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,16 +28,14 @@ public class Updater {
     private boolean enableAlerts = false;
 
     private String newBuild = null;
-    private final String server = "ecke1612.bplaced.net";
-    private final String user = "ecke1612_interval";
-    private final String pw = "8h6AszzvM9SjzEhB";
     //private AppObject appObject;
 
 
     public boolean checkForUpdate(AppObject appObject, int installedVersion) throws Exception {
         //this.appObject = appObject;
+        ServerData serverData = new ServerData();
         try {
-            ftp_handler = new FTP_Handler(server, user, pw);
+            ftp_handler = new FTP_Handler(serverData.getServer(), serverData.getUser(), serverData.getPw());
             if(!fileExist(appObject.getLocalPath() + "ver")) {
                 createDir(appObject.getLocalPath() + "ver");
             }
@@ -85,7 +91,7 @@ public class Updater {
                 //Wenn durch Windows TextCodierung der UTF-8 Stream nicht mit readable Code anfängt, dann lösche es raus
                 reader.mark(1);
                 if (reader.read() != 0xFEFF) reader.reset();
-
+                System.out.println("line: " + reader.readLine());
                 int newBuild = Integer.parseInt(reader.readLine());
                 System.out.println("installed build: " + newBuild);
                 return newBuild;
@@ -142,7 +148,21 @@ public class Updater {
                 content = content + entry + "\n";
             }
 
-            alerts.confirmDialogFX("Changelog", "Hinweise zur aktuellen Version", content);
+            Stage logstage = new Stage();
+
+            FXMLLoader fxmlLoader = null;
+            fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/changelog.fxml"));
+            ChangeLogController changeLogController = new ChangeLogController(content, logstage);
+            fxmlLoader.setController(changeLogController);
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            logstage.setScene(scene);
+            logstage.setTitle("Changelog: " + appObject.getName());
+            logstage.show();
+
+
+            //alerts.confirmDialogFX("Changelog", "Hinweise zur aktuellen Version", content);
             /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Changelog");
             alert.setHeaderText(null);

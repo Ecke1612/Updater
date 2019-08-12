@@ -115,7 +115,6 @@ public class MainWindow_Controller {
             });
         }
 
-
         if(appStart && installed) {
             appObject.setUpdateAvailable(edUpdater.checkForUpdates(appObject));
             if(appObject.isUpdateAvailable()) {

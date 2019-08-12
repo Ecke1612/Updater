@@ -29,6 +29,13 @@
       "remoteTxtPath": "/dashmirror/build.txt",
       "initalPath": "/dashmirror",
       "localPath": "bin/apps/Dashmirror/"
+    },
+	{
+      "name": "ImageSorter",
+      "exec": "ImageSorter.jar",
+      "remoteTxtPath": "/imagesorter/build.txt",
+      "initalPath": "/imagesorter",
+      "localPath": "bin/apps/ImageSorter/"
     }
   ]
 }

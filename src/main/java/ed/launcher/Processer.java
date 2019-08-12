@@ -106,7 +106,6 @@ public class Processer {
                 reader = new BufferedReader(new InputStreamReader(m_in));
 
                 for (String line = null; ((line = reader.readLine()) != null); ) {
-                    // TODO: Do something with the output, maybe.
                     System.out.println(line);
                 }
             } catch (IOException e) {

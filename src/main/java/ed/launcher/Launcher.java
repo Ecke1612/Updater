@@ -54,9 +54,10 @@ public class Launcher extends Application {
         EDUpdater edUpdater = new EDUpdater();
         if(edUpdater.checkForUpdates(appObject))
         {
-            System.out.println("new Version found");
+            System.out.println("found new Version");
             edUpdater.executeUpdate(appObject);
         }
+
     }
 
     private void createAppFolders() {
