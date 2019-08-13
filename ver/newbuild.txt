@@ -1,3 +1,10 @@
+235
+Verbesserungen:
+ - Neues Changelog Fenster mit ScrollPane
+ - Sourcecode Umstrukturierungen
+ Bugfixe:
+   - Fehler behoben, der dazu führen konnte, das sich der Launcher nicht mehr updated 
+
 232
 Bugfixes:
   - ein Fehler, weshalb initale Updates nicht installiert werden konnten, ist nun behoben

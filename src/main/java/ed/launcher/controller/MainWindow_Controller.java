@@ -1,10 +1,10 @@
 package ed.launcher.controller;
 
+import com.ed.filehandler.PlainFileHandler;
 import ed.launcher.AppObject;
 import ed.launcher.EDUpdater;
 import ed.launcher.Launcher;
 import ed.launcher.Updater;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -36,10 +36,9 @@ public class MainWindow_Controller {
 
     private Stage primaryStage;
     private ArrayList<AppObject> appObjects;
-    //private EDUpdater edUpdater = new EDUpdater();
-    //private boolean updateAvailable = false;
     private boolean appStart = true;
     private int threadCounter = 0;
+    private PlainFileHandler plainFileHandler = new PlainFileHandler();
 
     public MainWindow_Controller(ArrayList<AppObject> appObjects, Stage primaryStage) {
         this.appObjects = appObjects;
@@ -107,7 +106,7 @@ public class MainWindow_Controller {
             btn_start.setText("Installieren");
             btn_start.setOnAction(event -> {
                 try {
-                    Updater.createDir(appObject.getLocalPath());
+                    plainFileHandler.createDir(appObject.getLocalPath());
                     installApp(edUpdater, appObject, btn_start, labelOut, btn_update);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -285,7 +284,7 @@ public class MainWindow_Controller {
     }
 
     private boolean checkifinstalled(AppObject appObject) {
-        if(!Updater.fileExist(appObject.getLocalPath() + "/" + appObject.getName() + ".jar")) {
+        if(!plainFileHandler.fileExist(appObject.getLocalPath() + "/" + appObject.getName() + ".jar")) {
             return false;
         }
         return true;

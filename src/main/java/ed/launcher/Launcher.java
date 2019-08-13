@@ -1,5 +1,6 @@
 package ed.launcher;
 
+import com.ed.filehandler.PlainFileHandler;
 import ed.launcher.controller.MainWindow_Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ public class Launcher extends Application {
 
     public static final int version = 235;
     public static ConfigObject configObject;
+    private PlainFileHandler plainFileHandler = new PlainFileHandler();
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,8 +48,8 @@ public class Launcher extends Application {
 
     private void updateLauncher() {
         System.out.println("update Launcher");
-        if(!Updater.fileExist("ver")) Updater.createDir("ver");
-        if(!Updater.fileExist("bin")) createAppFolders();
+        if(!plainFileHandler.fileExist("ver")) plainFileHandler.createDir("ver");
+        if(!plainFileHandler.fileExist("bin")) createAppFolders();
 
         AppObject appObject = new AppObject(0, "ED_FX_Launcher", "ED_FX_Launcher.jar", "/ed_launcher/build.txt",
                 "/ed_launcher", "");
@@ -61,8 +63,8 @@ public class Launcher extends Application {
     }
 
     private void createAppFolders() {
-        Updater.createDir("bin");
-        Updater.createDir("bin/apps");
+        plainFileHandler.createDir("bin");
+        plainFileHandler.createDir("bin/apps");
     }
 
 }

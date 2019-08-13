@@ -1,7 +1,5 @@
 package ed.launcher;
 
-import javafx.concurrent.Task;
-import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 /**
@@ -10,17 +8,13 @@ import java.io.IOException;
 
 public class EDUpdater {
 
-    public static int build = 0;
     private Updater updater = new Updater();
     private Processer processer = new Processer();
-    //private Timer timer;
     private String executPath;
 
 
     public EDUpdater() {
         System.out.println("Launcher Version: " + Launcher.version);
-        //timer = new Timer("updateTimer");
-
     }
 
     public void startApp(AppObject appObject) {
@@ -69,27 +63,5 @@ public class EDUpdater {
     public Updater getUpdater() {
         return updater;
     }
-
-    /*  public void startScheduler() {
-        long loop = 1000 * 60 * Launcher.configObject.getUpdateCircle();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("check for updates!");
-                    if (check(updater.getInstalledVersion())) {
-                        processer.destroyProcess();
-                        processer.startJar(executPath, Launcher.configObject.getOs());
-                    } else {
-                        System.out.println("no Updates were found, keep going");
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, loop, loop);
-    }*/
-
 
 }
