@@ -27,7 +27,6 @@ import java.util.Scanner;
 public class Updater {
 
     private FTP_Handler ftp_handler;
-    private Alert_Windows alerts = new Alert_Windows();
     private PlainFileHandler plainFileHandler = new PlainFileHandler();
     private JsonHandler jsonHandler = new JsonHandler();
 
@@ -73,10 +72,14 @@ public class Updater {
             if(Integer.parseInt(newBuild) > installedVersion) {
                 //return alerts.confirmDialogFX("Update", "Es ist ein Update verfügbar", "Möchtest du " + appObject.getName() + " aktualisieren?");
                 return true;
+            } else {
+                System.out.println("keine aktuellere Version gefunden");
+                return false;
             }
+        } else {
+            System.out.println("build Datei nicht vorhanden");
+            return false;
         }
-        System.out.println("build Datei nicht vorhanden");
-        return false;
     }
 
     public void update(AppObject appObject) {
@@ -84,6 +87,7 @@ public class Updater {
         ftp_handler.downloadFile(appObject.getInitialPath() + "/" + appObject.getName() + "_" + newBuild + ".jar", appObject.getLocalPath() +  appObject.getName() + ".jar");
         ftp_handler.downloadFile(appObject.getInitialPath() + "/alist.json", appObject.getLocalPath() + "ver/alist");
 
+        System.out.println("execute Alist");
         executeAListInstructions(appObject);
 
         System.out.println("heruntergeladen");
@@ -96,18 +100,20 @@ public class Updater {
         if(plainFileHandler.fileExist(appObject.getLocalPath() + "ver/newbuild.txt")) {
             File newBuildFile = new File(appObject.getLocalPath() + "ver/newbuild.txt");
             File buildFile = new File(appObject.getLocalPath() + "ver/build.txt");
-            boolean sucess = newBuildFile.renameTo(buildFile);
-            if(!sucess) System.out.println("newBuild was not successfully renamed!");
-            else {
-                newBuildFile.delete();
-                System.out.println("newBuild deleted");
-            }
+            if(buildFile.exists()) System.out.println("build deleted: " + buildFile.delete());
+            System.out.println("newBuild renamed: " + newBuildFile.renameTo(buildFile));
         }
+    }
+
+    private void testScanner() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("proceed?");
+        scanner.nextLine();
     }
 
     private void executeAListInstructions(AppObject appObject) {
         JSONObject jsonObj = jsonHandler.readJsonData(appObject.getLocalPath() + "ver/alist");
-
+        System.out.println("jsonHandler read");
         JSONArray deleteArray = (JSONArray) jsonObj.get("delete");
         for (int i = 0; i < deleteArray.size(); i++) {
             String path = deleteArray.get(i).toString();
@@ -116,6 +122,7 @@ public class Updater {
             System.out.println("deleted: " + appObject.getLocalPath() + path);
         }
 
+        System.out.println("parse j array");
         JSONArray addArray = (JSONArray) jsonObj.get("add");
         for (int x = 0; x < addArray.size(); x++) {
             JSONObject addObject = (JSONObject) addArray.get(x);
