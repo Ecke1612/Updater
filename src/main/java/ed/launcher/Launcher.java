@@ -17,7 +17,7 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    public static final int version = 241;
+    public static final int version = 243;
     public static ConfigObject configObject;
     private PlainFileHandler plainFileHandler = new PlainFileHandler();
 

@@ -2,13 +2,6 @@
   "os": "windows",
   "updateCircle": "120",
   "apps":[
-      {
-      "name": "ImageSorter",
-      "exec": "ImageSorter.jar",
-      "remoteTxtPath": "/apps/imagesorter/build.txt",
-      "initalPath": "/apps/imagesorter",
-      "localPath": "bin/apps/ImageSorter/"
-    },
     {
       "name": "Interval",
       "exec": "Interval.jar",
@@ -23,12 +16,26 @@
       "initalPath": "/apps/exhelper",
       "localPath": "bin/apps/ExHelper/"
     },
-	{
+    {
       "name": "Dashmirror",
       "exec": "Dashmirror.jar",
       "remoteTxtPath": "/apps/dashmirror/build.txt",
       "initalPath": "/apps/dashmirror",
       "localPath": "bin/apps/Dashmirror/"
+    },
+    {
+      "name": "ImageSorter",
+      "exec": "ImageSorter.jar",
+      "remoteTxtPath": "/apps/imagesorter/build.txt",
+      "initalPath": "/apps/imagesorter",
+      "localPath": "bin/apps/ImageSorter/"
+    },
+    {
+      "name": "Vokabeltrainer",
+      "exec": "Vokabeltrainer.jar",
+      "remoteTxtPath": "/apps/vokabeltrainer/build.txt",
+      "initalPath": "/apps/vokabeltrainer",
+      "localPath": "bin/apps/Vokabeltrainer/"
     }
   ]
 }

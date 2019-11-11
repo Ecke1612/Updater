@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="250.0" spacing="10.0" stylesheets="@mainStyle.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" spacing="10.0" stylesheets="@mainStyle.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox style="-fx-background-color: rgb(45,45,45);">
          <children>
@@ -35,7 +35,7 @@
       </HBox>
       <ScrollPane hbarPolicy="NEVER" prefHeight="320.0" prefWidth="250.0">
          <content>
-            <VBox fx:id="vbox_apps" prefWidth="250.0" spacing="5.0" />
+            <VBox fx:id="vbox_apps" prefWidth="300.0" spacing="5.0" />
          </content>
       </ScrollPane>
       <HBox spacing="10.0">
