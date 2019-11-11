@@ -5,29 +5,29 @@
       {
       "name": "ImageSorter",
       "exec": "ImageSorter.jar",
-      "remoteTxtPath": "/imagesorter/build.txt",
-      "initalPath": "/imagesorter",
+      "remoteTxtPath": "/apps/imagesorter/build.txt",
+      "initalPath": "/apps/imagesorter",
       "localPath": "bin/apps/ImageSorter/"
     },
     {
       "name": "Interval",
       "exec": "Interval.jar",
-      "remoteTxtPath": "/interval/build.txt",
-      "initalPath": "/interval",
+      "remoteTxtPath": "/apps/interval/build.txt",
+      "initalPath": "/apps/interval",
       "localPath": "bin/apps/Interval/"
     },
     {
       "name": "ExHelper",
       "exec": "ExHelper.bat",
-      "remoteTxtPath": "/exhelper/build.txt",
-      "initalPath": "/exhelper",
+      "remoteTxtPath": "/apps/exhelper/build.txt",
+      "initalPath": "/apps/exhelper",
       "localPath": "bin/apps/ExHelper/"
     },
 	{
       "name": "Dashmirror",
       "exec": "Dashmirror.jar",
-      "remoteTxtPath": "/dashmirror/build.txt",
-      "initalPath": "/dashmirror",
+      "remoteTxtPath": "/apps/dashmirror/build.txt",
+      "initalPath": "/apps/dashmirror",
       "localPath": "bin/apps/Dashmirror/"
     }
   ]

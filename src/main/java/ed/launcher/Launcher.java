@@ -17,7 +17,7 @@ public class Launcher extends Application {
         launch(args);
     }
 
-    public static final int version = 240;
+    public static final int version = 241;
     public static ConfigObject configObject;
     private PlainFileHandler plainFileHandler = new PlainFileHandler();
 
@@ -51,8 +51,8 @@ public class Launcher extends Application {
         if(!plainFileHandler.fileExist("ver")) plainFileHandler.createDir("ver");
         if(!plainFileHandler.fileExist("bin")) createAppFolders();
 
-        AppObject appObject = new AppObject(0, "ED_FX_Launcher", "ED_FX_Launcher.jar", "/ed_launcher/build.txt",
-                "/ed_launcher", "");
+        AppObject appObject = new AppObject(0, "ED_FX_Launcher", "ED_FX_Launcher.jar", "/apps/ed_launcher/build.txt",
+                "/apps/ed_launcher", "");
         EDUpdater edUpdater = new EDUpdater();
         if(edUpdater.checkForUpdates(appObject))
         {

@@ -1,3 +1,7 @@
+241
+Bugfix:
+  - renameTo Funktion Fehler behoben, der dazu führte, dass ausgeführte Updates nicht als solche erkannt wurden.
+
 240
   - Updatefehlerbehebung
 
